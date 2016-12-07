@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.1.xsd">
+
+	<task:annotation-driven executor="myExecutor"
+		scheduler="myScheduler" />
+	<task:executor id="myExecutor" pool-size="5" />
+	<task:scheduler id="myScheduler" pool-size="10" />
+
+	<context:annotation-config />
+	<context:component-scan base-package="br.com.carloskafka" />
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="/application.properties" />
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="SisJpaSpringPU" />
+		<property name="dataSource" ref="dataSourceSisJpaSpringPU" />
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<bean id="dataSourceSisJpaSpringPU" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${driver.db}" />
+		<property name="jdbcUrl"
+			value="${url.db}${host.db}:${porta.db}/${nome.base.db}" />
+		<property name="user" value="${username.db}" />
+		<property name="password" value="${password.db}" />
+		<property name="maxPoolSize" value="100" />
+		<property name="maxIdleTime" value="60" />
+	</bean>
+</beans>
