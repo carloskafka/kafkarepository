@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>FOC - Faculdade Oswaldo Cruz - Exercicio Aula</title>
+<title>FOC - Faculdade Oswaldo Cruz</title>
 </head>
 <body>
-É isso aí jovem Keity!!!
+	Funcionou! JSP!
 </body>
 </html>
